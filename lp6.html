@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open-Trafego — Scroll 3D Cubes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon: #00F5D4;
+      --purple: #7B2FBE;
+      --dark: #0A0A0F;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: white;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    .scene {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      position: relative;
+    }
+    .cube-container {
+      width: 300px;
+      height: 300px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease;
+    }
+    .cube-face {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: rgba(0, 245, 212, 0.1);
+      border: 2px solid rgba(0, 245, 212, 0.3);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: bold;
+      color: var(--neon);
+      backface-visibility: visible;
+    }
+    .cube-face:nth-child(1) { transform: translateZ(150px); }
+    .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(150px); }
+    .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(150px); }
+    .cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(150px); }
+    .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(150px); }
+    .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(150px); }
+
+    .content-block {
+      position: absolute;
+      max-width: 800px;
+      padding: 40px;
+      background: rgba(21,21,31,0.9);
+      border: 1px solid rgba(0,245,212,0.3);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+    }
+    .nav-dots {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 999;
+    }
+    .nav-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      margin: 10px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .nav-dot.active {
+      background: var(--neon);
+      box-shadow: 0 0 10px var(--neon);
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-dots" id="nav-dots"></div>
+
+  <!-- Section 1: Hero with Rotating Cube -->
+  <section class="scene" id="s1">
+    <div class="cube-container" id="cube1">
+      <div class="cube-face">AUTOMAÇÃO</div>
+      <div class="cube-face">IA</div>
+      <div class="cube-face">DATA</div>
+      <div class="cube-face">ROI</div>
+      <div class="cube-face">META</div>
+      <div class="cube-face">GOOGLE</div>
+    </div>
+    <div class="content-block text-center" style="top: 10%;">
+      <h1 class="text-5xl font-bold mb-4" style="font-family: 'Orbitron';">SCROLL 3D CUBES</h1>
+      <p class="text-gray-400">Role a página para ver os cubos 3D girarem e se movimentarem.</p>
+    </div>
+  </section>
+
+  <!-- Section 2: Features with Parallax Cubes -->
+  <section class="scene" id="s2" style="background: linear-gradient(180deg, var(--dark), #16213e);">
+    <div class="cube-container" style="left: 10%; top: 30%;" data-speed="0.5">
+      <div class="cube-face" style="background:rgba(123,47,190,0.15); border-color:rgba(123,47,190,0.4); color:var(--purple);">⚡</div>
+    </div>
+    <div class="cube-container" style="right: 10%; top: 50%;" data-speed="0.8">
+      <div class="cube-face" style="background:rgba(0,245,212,0.15); border-color:rgba(0,245,212,0.4); color:var(--neon);">📊</div>
+    </div>
+    <div class="content-block" style="position: absolute; left: 50%; transform: translateX(-50%); top: 15%;">
+      <h2 class="text-3xl font-bold mb-4 text-cyan-400">Cubos em Movimento</h2>
+      <p class="text-gray-300 mb-6">Cada cubo responde ao scroll com velocidade diferente, criando profundidade 3D.</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="text-center p-4 bg-white/5 rounded">
+          <div class="text-2xl mb-2">🎯</div>
+          <div>Precisão</div>
+        </div>
+        <div class="text-center p-4 bg-white/5 rounded">
+          <div class="text-2xl mb-2">🚀</div>
+          <div>Performance</div>
+        </div>
+        <div class="text-center p-4 bg-white/5 rounded">
+          <div class="text-2xl mb-2">🔗</div>
+          <div>Integração</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Rotating Text Cube -->
+  <section class="scene" id="s3" style="background: linear-gradient(180deg, #16213e, #0f2027);">
+    <div class="cube-container" style="left: 50%; top: 50%; transform: translate(-50%, -50%);" id="big-cube">
+      <div class="cube-face" style="background:rgba(0,245,212,0.2); border-color:var(--neon); font-size:2rem;">AUTOMATE</div>
+      <div class="cube-face" style="background:rgba(0,245,212,0.2); border-color:var(--neon); font-size:2rem;">OPTIMIZE</div>
+      <div class="cube-face" style="background:rgba(0,245,212,0.2); border-color:var(--neon); font-size:2rem;">SCALE</div>
+      <div class="cube-face" style="background:rgba(0,245,212,0.2); border-color:var(--neon); font-size:2rem;">WIN</div>
+      <div class="cube-face" style="background:rgba(0,245,212,0.2); border-color:var(--neon); font-size:2rem;">💰</div>
+      <div class="cube-face" style="background:rgba(0,245,212,0.2); border-color:var(--neon); font-size:2rem;">🚀</div>
+    </div>
+  </section>
+
+  <!-- Section 4: Floating Cards 3D -->
+  <section class="scene" id="s4" style="background: linear-gradient(180deg, #0f2027, #0A0A0F);">
+    <div class="content-block" style="position: absolute; left: 50%; transform: translateX(-50%); top: 10%; max-width: 1000px;">
+      <h2 class="text-3xl font-bold mb-6 text-purple-400">Cards 3D Flutuantes</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="card-3d" data-tilt>
+          <div class="text-4xl mb-4">🤖</div>
+          <h3 class="text-xl font-bold mb-2 text-cyan-400">IA Inteligente</h3>
+          <p class="text-gray-400">Algoritmos que aprendem e otimizam automaticamente.</p>
+        </div>
+        <div class="card-3d" data-tilt>
+          <div class="text-4xl mb-4">📈</div>
+          <h3 class="text-xl font-bold mb-2 text-cyan-400">Crescimento</h3>
+          <p class="text-gray-400">Resultados reais em tempo recorde.</p>
+        </div>
+        <div class="card-3d" data-tilt>
+          <div class="text-4xl mb-4">🔗</div>
+          <h3 class="text-xl font-bold mb-2 text-cyan-400">Integrado</h3>
+          <p class="text-gray-400">Meta + Google em um só lugar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: CTA Final -->
+  <section class="scene" id="s5" style="background: radial-gradient(circle at center, rgba(0,245,212,0.1), var(--dark));">
+    <div class="content-block text-center" style="position: absolute; left: 50%; transform: translateX(-50%); top: 30%;">
+      <h2 class="text-4xl font-bold mb-6" style="background:linear-gradient(135deg, var(--neon), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+        PRONTO PARA O 3D?
+      </h2>
+      <p class="text-xl text-gray-400 mb-8">Teste grátis 7 dias. Sem compromisso.</p>
+      <a href="#" class="inline-block" style="background:linear-gradient(135deg, var(--neon), var(--purple)); color:#000; padding:18px 50px; border-radius:60px; font-weight:700; text-decoration:none; font-size:1.2rem;">
+        QUERO TESTAR
+      </a>
+    </div>
+  </section>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 3D Cube rotation on scroll
+    const cube1 = document.getElementById('cube1');
+    if (cube1) {
+      gsap.to(cube1, {
+        rotateX: 360,
+        rotateY: 360,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#s1',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1
+        }
+      });
+    }
+
+    const bigCube = document.getElementById('big-cube');
+    if (bigCube) {
+      gsap.to(bigCube, {
+        rotateX: 720,
+        rotateY: 720,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#s3',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1
+        }
+      });
+    }
+
+    // Parallax for floating cubes
+    document.querySelectorAll('.scene .cube-container').forEach(cube => {
+      const speed = parseFloat(cube.dataset.speed) || 0.5;
+      gsap.to(cube, {
+        y: -200 * speed,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: cube.parentElement,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0
+        }
+      });
+    });
+
+    // Nav dots
+    const sections = document.querySelectorAll('.scene');
+    const navDots = document.getElementById('nav-dots');
+    sections.forEach((sec, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'nav-dot';
+      if (i === 0) dot.classList.add('active');
+      dot.onclick = () => sec.scrollIntoView({ behavior: 'smooth' });
+      navDots.appendChild(dot);
+    });
+
+    ScrollTrigger.create({
+      trigger: 'body',
+      onUpdate: (self) => {
+        let i = 0;
+        sections.forEach((sec, idx) => {
+          if (self.progress > idx / sections.length) i = idx;
+        });
+        document.querySelectorAll('.nav-dot').forEach((dot, idx) => {
+          dot.classList.toggle('active', idx === i);
+        });
+      }
+    });
+
+    // 3D tilt cards
+    document.querySelectorAll('.card-3d').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateY = ((x - centerX) / centerX) * 10;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+  </script>
+</body>
+</html>

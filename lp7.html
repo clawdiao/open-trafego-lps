@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open-Trafego — 3D Z-Axis Text</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon: #00F5D4;
+      --purple: #7B2FBE;
+      --dark: #0A0A0F;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: white;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    .section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    .big-text {
+      position: absolute;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      white-space: nowrap;
+      transform-style: preserve-3d;
+    }
+    .big-text span {
+      display: inline-block;
+      transform: translateZ(0);
+    }
+    .content-box {
+      background: rgba(21,21,31,0.95);
+      border: 1px solid rgba(0,245,212,0.3);
+      border-radius: 24px;
+      padding: 50px;
+      max-width: 800px;
+      position: relative;
+      z-index: 10;
+      backdrop-filter: blur(20px);
+    }
+    .floating-shapes {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,245,212,0.1), transparent);
+      filter: blur(40px);
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-shapes">
+    <div class="shape" style="width:300px;height:300px;top:10%;left:10%;"></div>
+    <div class="shape" style="width:200px;height:200px;bottom:20%;right:10%;background:radial-gradient(circle, rgba(123,47,190,0.1), transparent);"></div>
+  </div>
+
+  <!-- Section 1 -->
+  <section class="section" id="sec1">
+    <div class="big-text" style="font-size: 12vw; color: rgba(0,245,212,0.05); left: 50%; transform: translateX(-50%) translateZ(-500px);">
+      OPEN-TRAFEGO
+    </div>
+    <div class="content-box text-center">
+      <h1 class="text-5xl font-bold mb-6" style="background:linear-gradient(135deg, var(--neon), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+        SCROLL 3D Z-AXIS
+      </h1>
+      <p class="text-xl text-gray-400 mb-8">
+        Texto em camadas 3D que se aproxima (translateZ) conforme você rola.
+        Efeito cinematográfico.
+      </p>
+      <a href="#sec2" class="inline-block" style="background:linear-gradient(135deg, var(--neon), var(--purple)); color:#000; padding:15px 40px; border-radius:50px; font-weight:700; text-decoration:none;">
+        Role para baixo ↓
+      </a>
+    </div>
+  </section>
+
+  <!-- Section 2 -->
+  <section class="section" id="sec2" style="background: linear-gradient(180deg, var(--dark), #16213e);">
+    <div class="big-text" style="font-size: 10vw; color: rgba(123,47,190,0.05); right: -10%; transform: translateZ(-300px);">
+      AUTOMATION
+    </div>
+    <div class="content-box" style="margin-left: 10%;">
+      <h2 class="text-4xl font-bold mb-4 text-purple-400">Profundidade com Z</h2>
+      <p class="text-gray-300 mb-6 text-lg">
+        O texto no fundo está translateZ(-300px) e escala automaticamente
+        pela perspectiva. Cria sensação de mundo 3D.
+      </p>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-3 text-cyan-400">Vantagens</h3>
+          <ul class="space-y-3 text-gray-400">
+            <li>• Imersão total</li>
+            <li>• Performance GPU</li>
+            <li>• Sem JavaScript pesado</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-3 text-cyan-400">Uso</h3>
+          <ul class="space-y-3 text-gray-400">
+            <li>• Hero sections</li>
+            <li>• Product launches</li>
+            <li>• Storytelling</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3 -->
+  <section class="section" id="sec3" style="background: linear-gradient(180deg, #16213e, #0f2027);">
+    <div class="big-text" style="font-size: 15vw; color: rgba(0,245,212,0.03); left: -5%; transform: translateZ(-800px);">
+      AI
+    </div>
+    <div class="content-box" style="margin-right: 10%;">
+      <h2 class="text-4xl font-bold mb-4 text-cyan-400">Inteligência Artificial</h2>
+      <p class="text-gray-300 mb-6 text-lg">
+        O sistema aprende com seus dados e otimiza campanhas automaticamente.
+        Roas aumentam sem intervenção manual.
+      </p>
+      <div class="flex gap-8 text-center">
+        <div>
+          <div class="text-4xl font-bold text-neon" style="color:var(--neon)">300%</div>
+          <div class="text-sm text-gray-500">ROAS Médio</div>
+        </div>
+        <div>
+          <div class="text-4xl font-bold text-neon" style="color:var(--neon)">0.5s</div>
+          <div class="text-sm text-gray-500">Latência</div>
+        </div>
+        <div>
+          <div class="text-4xl font-bold text-neon" style="color:var(--neon)">24/7</div>
+          <div class="text-sm text-gray-500">Operação</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4 -->
+  <section class="section" id="sec4" style="background: linear-gradient(180deg, #0f2027, #0A0A0F);">
+    <div class="big-text" style="font-size: 10vw; color: rgba(255,215,0,0.05); left: 50%; transform: translateX(-50%) translateZ(-400px);">
+      SCALE
+    </div>
+    <div class="content-box text-center" style="max-width: 1000px;">
+      <h2 class="text-4xl font-bold mb-6 text-yellow-400">Escalabilidade</h2>
+      <p class="text-xl text-gray-300 mb-8">
+        De startups a agências enterprise. O sistema cresce com você.
+      </p>
+      <div class="grid md:grid-cols-3 gap-8 text-left">
+        <div class="p-4 bg-white/5 rounded">
+          <h3 class="font-bold mb-2 text-cyan-400">Starter</h3>
+          <p class="text-gray-400">1 conta, 5 campanhas</p>
+          <p class="text-2xl font-bold mt-2">R$ 97/mês</p>
+        </div>
+        <div class="p-4 bg-white/10 border border-cyan-400 rounded">
+          <h3 class="font-bold mb-2 text-cyan-400">Pro</h3>
+          <p class="text-gray-400">3 contas, 20 campanhas</p>
+          <p class="text-2xl font-bold mt-2">R$ 297/mês</p>
+        </div>
+        <div class="p-4 bg-white/5 rounded">
+          <h3 class="font-bold mb-2 text-cyan-400">Agency</h3>
+          <p class="text-gray-400">Ilimitado, white-label</p>
+          <p class="text-2xl font-bold mt-2">R$ 997/mês</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5 -->
+  <section class="section" id="sec5" style="background: radial-gradient(circle at center, rgba(123,47,190,0.1), var(--dark));">
+    <div class="big-text" style="font-size: 12vw; color: rgba(0,245,212,0.02); right: -10%; transform: translateZ(-600px);">
+      NOW
+    </div>
+    <div class="content-box text-center">
+      <h2 class="text-5xl font-bold mb-6" style="background:linear-gradient(135deg, var(--neon), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+        COMECE AGORA
+      </h2>
+      <p class="text-xl text-gray-400 mb-8">7 dias grátis. Resultados em 48h.</p>
+      <a href="#" class="inline-block" style="background:linear-gradient(135deg, var(--neon), var(--purple)); color:#000; padding:18px 60px; border-radius:60px; font-weight:700; text-decoration:none; font-size:1.3rem; box-shadow:0 0 50px rgba(0,245,212,0.5);">
+        QUERO MEU TRIAL
+      </a>
+    </div>
+  </section>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Big text Z-axis movement
+    document.querySelectorAll('.big-text').forEach(text => {
+      const startZ = parseInt(text.style.transform.match(/translateZ\(([-\d]+)px\)/) ? text.style.transform.match(/translateZ\(([-\d]+)px\)/)[1] : -200);
+      gsap.to(text, {
+        translateZ: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: text.parentElement,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1
+        }
+      });
+    });
+
+    // Parallax content boxes
+    document.querySelectorAll('.content-box').forEach(box => {
+      gsap.fromTo(box,
+        { y: 100, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: box,
+            start: 'top 70%',
+            once: true
+          }
+        }
+      );
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
