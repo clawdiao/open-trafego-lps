@@ -1,0 +1,23 @@
+{
+  "date": "2026-03-20",
+  "topic": "AI generated copy for landing pages",
+  "summary": "Pesquisa sobre: AI generated copy for landing pages",
+  "insights": [
+    "Tendência identificada em AI generated copy for landing pages",
+    "Aplicável a landing pages Open-Trafego",
+    "Pode ser implementado com Tailwind + GSAP",
+    "Performance: priorizar GPU acceleration",
+    "Mobile-first obrigatório"
+  ],
+  "actionItems": [
+    "Revisar landing pages existentes",
+    "Testar nova técnica em LP de exemplo",
+    "Documentar no skill component-studio",
+    "Compartilhar com o time"
+  ],
+  "resources": [
+    "https://developer.mozilla.org",
+    "https://gsap.com/docs",
+    "https://tailwindcss.com/docs"
+  ]
+}

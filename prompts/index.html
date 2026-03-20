@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt Library — Open-Trafego</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon: #00F5D4;
+      --purple: #7B2FBE;
+      --dark: #0A0A0F;
+      --surface: #15151F;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: white;
+      margin: 0;
+      padding: 40px 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .header h1 {
+      font-size: 3rem;
+      background: linear-gradient(135deg, var(--neon), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .header p {
+      color: #888;
+      font-size: 1.1rem;
+    }
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .tab {
+      padding: 12px 24px;
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+    .tab:hover { border-color: var(--neon); }
+    .tab.active {
+      background: linear-gradient(135deg, var(--neon), var(--purple));
+      color: #000;
+      border-color: transparent;
+    }
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .prompt-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .prompt-card:hover {
+      border-color: var(--neon);
+      transform: translateY(-5px);
+    }
+    .prompt-type {
+      display: inline-block;
+      background: rgba(0,245,212,0.15);
+      color: var(--neon);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      margin-bottom: 12px;
+    }
+    .prompt-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .prompt-desc {
+      color: #aaa;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #e6edf3;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .copy-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--neon), var(--purple));
+      border: none;
+      border-radius: 10px;
+      color: #000;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .copy-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 20px rgba(0,245,212,0.4);
+    }
+    .copy-btn.copied {
+      background: #10b981;
+      color: white;
+    }
+    .hidden { display: none; }
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--surface);
+      border: 1px solid var(--neon);
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .tech-tag {
+      background: rgba(255,255,255,0.05);
+      color: #888;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>PROMPT LIBRARY</h1>
+    <p>Copy & Paste prompts para criar Landing Pages, Formulários, CTAs, Heros e Features</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="category-tabs">
+    <div class="tab active" data-category="landpages">Landpages</div>
+    <div class="tab" data-category="formularios">Formulários</div>
+    <div class="tab" data-category="ctas">CTAs</div>
+    <div class="tab" data-category="heros">Heros</div>
+    <div class="tab" data-category="features">Features</div>
+    <div class="tab" data-category="depoimentos">Depoimentos</div>
+  </div>
+
+  <!-- Grid de Prompts -->
+  <div class="prompt-grid" id="promptGrid">
+    <!-- Prompt 1: Landpage -->
+    <div class="prompt-card" data-category="landpages">
+      <span class="prompt-type">Landpage</span>
+      <h3 class="prompt-title">Landpage de Vendas — SaaS</h3>
+      <p class="prompt-desc">Landpage completa para produto SaaS com hero, features, social proof e CTA.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">HTML5</span>
+        <span class="tech-tag">Tailwind</span>
+        <span class="tech-tag">GSAP</span>
+        <span class="tech-tag">Parallax</span>
+      </div>
+      <div class="code-block" data-copy="Crie uma landpage de VENDAS para um SaaS de automação de marketing. Tema dark neon (ciano #00F5D4, roxo #7B2FBE). Inclua: Hero com headline magnético, 6 features com ícones, 3 depoimentos com fotos, seção de preços (3 planos), CTA final com urgência. Use Tailwind via CDN + GSAP ScrollTrigger para animações. Responsivo mobile-first. Altitude: 3000px, Mobile-first, performance 90+ Lighthouse.">
+Crie uma landpage de VENDAS para um SaaS de automação de marketing.
+Tema dark neon (ciano #00F5D4, roxo #7B2FBE).
+Inclua:
+- Hero com headline magnético
+- 6 features com ícones
+- 3 depoimentos com fotos
+- Seção de preços (3 planos)
+- CTA final com urgência
+Use Tailwind via CDN + GSAP ScrollTrigger.
+Responsivo mobile-first. Altitude: 3000px, Mobile-first, performance 90+ Lighthouse.
+      </div>
+      <button class="copy-btn" onclick="copyPrompt(this)">📋 Copiar Prompt</button>
+    </div>
+
+    <!-- Prompt 2: Landpage -->
+    <div class="prompt-card" data-category="landpages">
+      <span class="prompt-type">Landpage</span>
+      <h3 class="prompt-title">Landpage de Lançamento — Curso</h3>
+      <p class="prompt-desc">Página de lançamento de curso com contador regressivo, módulos e garantia.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">React</span>
+        <span class="tech-tag">Framer Motion</span>
+        <span class="tech-tag">Video BG</span>
+      </div>
+      <div class="code-block" data-copy="Crie landpage de LANÇAMENTO para curso online. Tema: premium gold/black. Inclua: Vídeo background fullscreen, contador regressivo (dias/horas/minutos/segundos), lista de módulos com badges, Garantia de 7 dias destacada, FAQ accordion, depoimentos em carousel, CTA fixo no rodapé (sticky). Tech: React + Tailwind + Framer Motion para animações. SEO otimizado (meta tags, schema). Performance: lazy load de imagens, code splitting.">
+Crie landpage de LANÇAMENTO para curso online.
+Tema: premium gold/black.
+Inclua:
+- Vídeo background fullscreen
+- Contador regressivo (dias/horas/minutos/segundos)
+- Lista de módulos com badges
+- Garantia de 7 dias destacada
+- FAQ accordion
+- Depoimentos em carousel
+- CTA fixo no rodapé (sticky)
+Tech: React + Tailwind + Framer Motion.
+SEO otimizado (meta tags, schema). Performance: lazy load.
+      </div>
+      <button class="copy-btn" onclick="copyPrompt(this)">📋 Copiar Prompt</button>
+    </div>
+
+    <!-- Prompt 3: Landpage -->
+    <div class="prompt-card" data-category="landpages">
+      <span class="prompt-type">Landpage</span>
+      <h3 class="prompt-title">Landpage de Serviço — Consultoria</h3>
+      <p class="prompt-desc">Landpage para serviços de consultoria com processo, cases e formulário de lead.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">Vue.js</span>
+        <span class="tech-tag">ScrollMagic</span>
+        <span class="tech-tag">Formik</span>
+      </div>
+      <div class="code-block" data-copy="Crie landpage de SERVIÇOS para consultoria em marketing digital. Estrutura: Hero com价值 proposta + formulário de lead (nome, email, empresa) inline. Seção 'Como funciona' (4 passos gráficos). Cases de sucesso (antes/depois com números). Equipe (fotos + LinkedIn). FAQ. Formulário de contato com validação (Formik + Yup). Use Vue.js 3 + Tailwind + ScrollMagic para trigger animations. Dark mode com gradientes roxos. Mobile-first. Acessibilidade WCAG 2.1 AA.">
+Crie landpage de SERVIÇOS para consultoria em marketing digital.
+Estrutura:
+- Hero com价值 proposta + formulário de lead inline
+- 'Como funciona' (4 passos gráficos)
+- Cases de sucesso (antes/depois com números)
+- Equipe (fotos + LinkedIn)
+- FAQ
+- Formulário de contato com validação (Formik + Yup)
+Tech: Vue.js 3 + Tailwind + ScrollMagic.
+Dark mode gradientes roxos. WCAG 2.1 AA.
+      </div>
+      <button class="copy-btn" onclick="copyPrompt(this)">📋 Copiar Prompt</button>
+    </div>
+
+    <!-- ... (vou criar 10 de cada categoria) ... -->
+  </div>
+
+  <div class="toast" id="toast">✅ Prompt copiado!</div>
+
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const category = tab.dataset.category;
+        document.querySelectorAll('.prompt-card').forEach(card => {
+          card.classList.toggle('hidden', card.dataset.category !== category);
+        });
+      });
+    });
+
+    // Copy function
+    function copyPrompt(btn) {
+      const codeBlock = btn.parentElement.querySelector('.code-block');
+      const text = codeBlock.dataset.copy || codeBlock.textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✅ Copiado!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '📋 Copiar Prompt';
+          btn.classList.remove('copied');
+        }, 2000);
+        showToast('Prompt copiado para a clipboard!');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Load all prompts dynamically
+    async function loadPrompts() {
+      const categories = ['landpages', 'formularios', 'ctas', 'heros', 'features', 'depoimentos'];
+      const grid = document.getElementById('promptGrid');
+      grid.innerHTML = '';
+
+      for (const cat of categories) {
+        for (let i = 1; i <= 10; i++) {
+          const resp = await fetch(`prompts/${cat}/prompt-${i}.html`);
+          if (resp.ok) {
+            const html = await resp.text();
+            const card = document.createElement('div');
+            card.className = 'prompt-card';
+            card.dataset.category = cat;
+            card.innerHTML = html;
+            grid.appendChild(card);
+          }
+        }
+      }
+    }
+
+    // Load on start
+    loadPrompts();
+  </script>
+</body>
+</html>
