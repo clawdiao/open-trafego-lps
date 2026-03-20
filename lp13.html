@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open-Trafego — Terminal Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon: #00F5D4;
+      --purple: #7B2FBE;
+      --dark: #0A0A0F;
+      --terminal-bg: #0d1117;
+      --terminal-header: #161b22;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: white;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      position: relative;
+    }
+    .terminal-window {
+      width: 90%;
+      max-width: 1000px;
+      background: var(--terminal-bg);
+      border: 1px solid rgba(0,245,212,0.3);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+      transform-style: preserve-3d;
+    }
+    .terminal-header {
+      background: var(--terminal-header);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .terminal-control {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .terminal-control.red { background: #ff5f56; }
+    .terminal-control.yellow { background: #ffbd2e; }
+    .terminal-control.green { background: #27c93f; }
+    .terminal-title {
+      margin-left: 12px;
+      font-size: 0.85rem;
+      color: #888;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .terminal-body {
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      min-height: 500px;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+    .terminal-line {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-start;
+    }
+    .prompt {
+      color: var(--neon);
+      margin-right: 8px;
+      user-select: none;
+    }
+    .command {
+      color: #fff;
+    }
+    .output {
+      color: #8b949e;
+      margin-left: 0;
+      white-space: pre-wrap;
+    }
+    .output.success { color: #3fb950; }
+    .output.error { color: #f85149; }
+    .output.info { color: #58a6ff; }
+    .cursor {
+      display: inline-block;
+      width: 8px; height: 16px;
+      background: var(--neon);
+      animation: blink 1s step-end infinite;
+      vertical-align: middle;
+      margin-left: 2px;
+    }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    .morph-bg {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .morph-1 {
+      width: 500px; height: 500px;
+      top: -150px; left: -150px;
+      background: radial-gradient(circle, rgba(0,245,212,0.15), transparent);
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      animation: morph 15s ease-in-out infinite;
+      filter: blur(40px);
+    }
+    .morph-2 {
+      width: 400px; height: 400px;
+      bottom: -100px; right: -100px;
+      background: radial-gradient(circle, rgba(123,47,190,0.15), transparent);
+      border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+      animation: morph 18s ease-in-out infinite reverse;
+      filter: blur(50px);
+    }
+    @keyframes morph {
+      0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+      25% { border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%; }
+      50% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+      75% { border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%; }
+    }
+    .content-box {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 10%;
+      max-width: 800px;
+      padding: 40px;
+      text-align: center;
+      z-index: 10;
+      background: rgba(21,21,31,0.9);
+      border: 1px solid rgba(0,245,212,0.3);
+      border-radius: 24px;
+      backdrop-filter: blur(30px);
+    }
+  </style>
+</head>
+<body>
+  <div class="morph-bg morph-1"></div>
+  <div class="morph-bg morph-2"></div>
+
+  <section class="hero">
+    <div class="content-box">
+      <h1 class="text-5xl font-bold mb-6" style="font-family:'Orbitron'; background:linear-gradient(135deg, var(--neon), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+        TERMINAL DEMO
+      </h1>
+      <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+        Veja o Open-Trafego em ação via linha de comando. Simples, rápido, poderoso.
+      </p>
+      <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+        <span style="background:rgba(0,245,212,0.15); color:var(--neon); padding:6px 16px; border-radius:12px; font-size:0.9rem;">npm install opentrafego</span>
+        <span style="background:rgba(123,47,190,0.15); color:var(--purple); padding:6px 16px; border-radius:12px; font-size:0.9rem;">opentrafego init</span>
+        <span style="background:rgba(99,102,241,0.15); color:var(--indigo); padding:6px 16px; border-radius:12px; font-size:0.9rem;">opentrafego deploy</span>
+      </div>
+    </div>
+
+    <div class="terminal-window" data-depth="0.4">
+      <div class="terminal-header">
+        <div class="terminal-control red"></div>
+        <div class="terminal-control yellow"></div>
+        <div class="terminal-control green"></div>
+        <span class="terminal-title">opentrafego@console:~/project</span>
+      </div>
+      <div class="terminal-body" id="terminal">
+        <!-- Commands will be injected here -->
+      </div>
+    </div>
+  </section>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const terminalCommands = [
+      { prompt: '$', cmd: 'npm install -g opentrafego', delay: 1000 },
+      { prompt: '$', cmd: 'opentrafego init', delay: 2000 },
+      { prompt: '?', cmd: 'Select environment: Production', delay: 1500 },
+      { prompt: '?', cmd: 'Connect Meta Ads? Yes', delay: 1000 },
+      { prompt: '?', cmd: 'Connect Google Ads? Yes', delay: 1000 },
+      { prompt: '$', cmd: 'opentrafego start', delay: 2000 },
+      { prompt: '→', cmd: 'Dashboard available at http://localhost:3000', delay: 1500 },
+      { prompt: '→', cmd: 'Agents initialized: TráfegoMAX, CampaignIQ, CopyChief', delay: 1500 },
+      { prompt: '→', cmd: 'Auto-optimization running...', delay: 1000 },
+      { prompt: '$', cmd: 'opentrafego status', delay: 2000 },
+      { prompt: '→', cmd: '● ROAS: 3.42 (↑ 12%)', delay: 800 },
+      { prompt: '→', cmd: '● Spend: R$ 1.247 / R$ 5.000', delay: 800 },
+      { prompt: '→', cmd: '● Conversions: 84 (CPA: R$ 14.85)', delay: 800 },
+      { prompt: '$', cmd: 'opentrafego deploy', delay: 2000 },
+      { prompt: '→', cmd: 'Building... ✓', delay: 1000 },
+      { prompt: '→', cmd: 'Deploying to Vercel... ✓', delay: 1500 },
+      { prompt: '→', cmd: 'Production URL: https://open-trafego.vercel.app', delay: 1500 },
+      { prompt: '$', cmd: '_', delay: 500, cursor: true }
+    ];
+
+    async function typeTerminal() {
+      const terminal = document.getElementById('terminal');
+      let totalDelay = 0;
+
+      for (const item of terminalCommands) {
+        setTimeout(() => {
+          const line = document.createElement('div');
+          line.className = 'terminal-line';
+          
+          if (item.prompt === '→') {
+            line.innerHTML = `<span style="color:var(--neon)">${item.prompt}</span><span class="output success"> ${item.cmd}</span>`;
+          } else if (item.prompt === '?') {
+            line.innerHTML = `<span style="color:#f59e0b">${item.prompt}</span><span class="output info"> ${item.cmd}</span>`;
+          } else {
+            line.innerHTML = `<span class="prompt">${item.prompt}</span><span class="command">${item.cmd}</span>`;
+          }
+          
+          if (item.cursor) {
+            line.innerHTML += '<span class="cursor"></span>';
+          }
+          
+          terminal.appendChild(line);
+          terminal.scrollTop = terminal.scrollHeight;
+        }, totalDelay);
+        
+        totalDelay += item.delay;
+      }
+    }
+
+    // Start typing when page loads
+    window.addEventListener('load', () => {
+      setTimeout(typeTerminal, 1000);
+    });
+
+    // Parallax terminal window
+    gsap.to('.terminal-window', {
+      y: -120,
+      rotateX: -3,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+
+    // Morph bg parallax
+    gsap.to('.morph-1', {
+      y: -200,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: 'body',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.5
+      }
+    });
+    gsap.to('.morph-2', {
+      y: 200,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: 'body',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.7
+      }
+    });
+  </script>
+</body>
+</html>

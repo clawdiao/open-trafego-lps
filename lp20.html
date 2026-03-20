@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open-Trafego — Interactive Experience</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon: #00F5D4;
+      --purple: #7B2FBE;
+      --dark: #0A0A0F;
+      --indigo: #6366f1;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: white;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    .scene {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .perspective-container {
+      perspective: 1500px;
+      transform-style: preserve-3d;
+    }
+    .floating-orb {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--neon), transparent);
+      filter: blur(60px);
+      z-index: 1;
+      animation: float 20s infinite ease-in-out;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      25% { transform: translate(100px, -100px) scale(1.2); }
+      50% { transform: translate(-50px, 100px) scale(0.9); }
+      75% { transform: translate(80px, 50px) scale(1.1); }
+    }
+    .glass-panel {
+      background: rgba(21,21,31,0.85);
+      backdrop-filter: blur(40px);
+      border: 1px solid rgba(0,245,212,0.3);
+      border-radius: 24px;
+      position: relative;
+      z-index: 10;
+    }
+    .hero-content {
+      padding: 80px 40px;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+    .hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4.5rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, var(--neon), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transform-style: preserve-3d;
+    }
+    .cta-button {
+      display: inline-block;
+      position: relative;
+      background: linear-gradient(135deg, var(--neon), var(--purple));
+      color: #000;
+      padding: 20px 60px;
+      border-radius: 60px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1.3rem;
+      box-shadow: 0 0 60px rgba(0,245,212,0.6);
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .cta-button:hover::before { opacity: 1; }
+    .cta-button:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 0 80px rgba(0,245,212,0.8);
+    }
+
+    /* Components Showcase */
+    .component-demo {
+      padding: 100px 20px;
+      position: relative;
+      z-index: 10;
+    }
+    .component-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto 60px;
+    }
+    .demo-card {
+      background: rgba(21,21,31,0.9);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 30px;
+      transform-style: preserve-3d;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+    .demo-card:hover {
+      transform: translateY(-15px) translateZ(30px) scale(1.02);
+      border-color: var(--neon);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.3);
+    }
+    
+    /* Chat Demo */
+    .mini-chat {
+      width: 100%;
+      height: 200px;
+      background: #171717;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chat-header-mini {
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .chat-avatar-mini {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--indigo), var(--purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+    .chat-messages-mini {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      font-size: 0.85rem;
+    }
+    .msg {
+      margin-bottom: 8px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      max-width: 80%;
+    }
+    .msg.bot { background: rgba(255,255,255,0.05); align-self: flex-start; }
+    .msg.user { background: linear-gradient(135deg, var(--indigo), var(--purple)); align-self: flex-end; margin-left: auto; }
+
+    /* Terminal Demo */
+    .mini-terminal-demo {
+      background: #0d1117;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      height: 200px;
+      overflow-y: auto;
+    }
+    .cmd { color: var(--neon); }
+    .out-success { color: var(--success); }
+    .out-info { color: #58a6ff; }
+
+    /* Spend Slider Demo */
+    .slider-demo-container {
+      padding: 16px;
+    }
+    .slider-demo {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--indigo), var(--neon));
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .slider-demo::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid var(--indigo);
+      box-shadow: 0 0 15px rgba(99,102,241,0.6);
+      cursor: pointer;
+    }
+    .slider-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      color: var(--neon);
+      margin-top: 12px;
+    }
+
+    /* Observability Demo */
+    .obs-panel {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .obs-metric {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .obs-metric:last-child { border-bottom: none; }
+    .obs-label { color: #888; }
+    .obs-value { font-family: 'Orbitron'; color: var(--neon); }
+    .live-indicator-sm {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--success);
+      margin-bottom: 12px;
+    }
+    .pulse-dot-sm {
+      width: 6px; height: 6px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    /* Badge Grid */
+    .badge-grid-demo {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .badge-demo {
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 0.85rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .badge-success { background: rgba(16,185,129,0.15); color: var(--success); border-color: rgba(16,185,129,0.3); }
+    .badge-warning { background: rgba(245,158,11,0.15); color: var(--warning); border-color: rgba(245,158,11,0.3); }
+    .badge-indigo { background: rgba(99,102,241,0.15); color: var(--indigo); border-color: rgba(99,102,241,0.3); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Depth navigation dots */
+    .depth-nav {
+      position: fixed;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 100;
+    }
+    .depth-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .depth-dot.active {
+      background: var(--neon);
+      box-shadow: 0 0 12px var(--neon);
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.5rem; }
+      .depth-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Orbs -->
+  <div class="floating-orb" style="width:500px;height:500px;top:-150px;right:-150px;"></div>
+  <div class="floating-orb" style="width:400px;height:400px;bottom:-100px;left:-100px;background:radial-gradient(circle, var(--purple), transparent); animation-delay:-5s;"></div>
+  <div class="floating-orb" style="width:300px;height:300px;top:50%;left:50%;transform:translate(-50%,-50%); background:radial-gradient(circle, var(--indigo), transparent); animation-delay:-10s;"></div>
+
+  <!-- Depth Navigation -->
+  <div class="depth-nav" id="depthNav"></div>
+
+  <!-- Hero Section -->
+  <section class="scene" id="hero">
+    <div class="perspective-container">
+      <div class="hero-content">
+        <div class="live-indicator-sm" style="justify-content:center; margin-bottom:20px;">
+          <div class="pulse-dot-sm"></div>
+          INTERACTIVE DEMO
+        </div>
+        <h1 class="hero-title" id="mainTitle">
+          FULL STACK<br>3D EXPERIENCE
+        </h1>
+        <p class="text-xl text-gray-400 mb-12 max-w-3xl mx-auto">
+          Todos os componentes do 21st.dev + efeitos 3D avançados em uma página única.
+          Role, interaja, explore.
+        </p>
+        <a href="#components" class="cta-button">EXPLORAR AGORA</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Components Showcase -->
+  <section class="scene component-demo" id="components">
+    <!-- Section Title with Morph BG -->
+    <div style="text-align:center; margin-bottom:60px; position:relative; z-index:10;">
+      <h2 class="text-4xl font-bold mb-4" style="font-family:'Orbitron';">UI COMPONENTS</h2>
+      <p class="text-gray-400">Inspirado no 21st.dev, adaptado para Open-Trafego</p>
+    </div>
+
+    <!-- Chat Component -->
+    <div class="component-row">
+      <div class="demo-card">
+        <div class="component-label">Chat Bubble (21st.dev)</div>
+        <div class="demo-card-title" style="font-size:1.3rem; font-weight:700; margin-bottom:16px;">AI Assistant</div>
+        <div class="mini-chat">
+          <div class="chat-header-mini">
+            <div class="chat-avatar-mini">🤖</div>
+            <div style="font-size:0.8rem; font-weight:600;">Open-Trafego AI</div>
+          </div>
+          <div class="chat-messages-mini">
+            <div class="msg bot">Olá! Sou seu assistente.</div>
+            <div class="msg user">Como posso otimizar?</div>
+            <div class="msg bot">Vou analisar seus dados...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spend Limit Component -->
+      <div class="demo-card">
+        <div class="component-label">Spend Limit Slider</div>
+        <div class="demo-card-title" style="font-size:1.3rem; font-weight:700; margin-bottom:16px;">Budget Control</div>
+        <div class="slider-demo-container">
+          <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#888; margin-bottom:8px;">
+            <span>R$ 10</span><span>R$ 1.000</span>
+          </div>
+          <input type="range" class="slider-demo" min="10" max="1000" value="500">
+          <div class="slider-value">R$ 500</div>
+        </div>
+      </div>
+
+      <!-- Terminal Component -->
+      <div class="demo-card">
+        <div class="component-label">Terminal</div>
+        <div class="demo-card-title" style="font-size:1.3rem; font-weight:700; margin-bottom:16px;">Command Line</div>
+        <div class="mini-terminal-demo">
+          <div class="cmd">$ opentrafego start</div>
+          <div class="out-success">✓ Dashboard running</div>
+          <div class="out-info">→ http://localhost:3000</div>
+          <div class="cmd">$ opentrafego status</div>
+          <div class="out-success">✓ All agents online</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second Row -->
+    <div class="component-row">
+      <!-- Observability -->
+      <div class="demo-card">
+        <div class="component-label">Observability</div>
+        <div class="demo-card-title" style="font-size:1.3rem; font-weight:700; margin-bottom:16px;">Live Metrics</div>
+        <div class="obs-panel">
+          <div class="live-indicator-sm" style="justify-content:center; margin-bottom:12px;">
+            <div class="pulse-dot-sm"></div> LIVE
+          </div>
+          <div class="obs-metric">
+            <span class="obs-label">ROAS</span>
+            <span class="obs-value">3.42</span>
+          </div>
+          <div class="obs-metric">
+            <span class="obs-label">Spend</span>
+            <span class="obs-value">R$ 1.2k</span>
+          </div>
+          <div class="obs-metric">
+            <span class="obs-label">Conversions</span>
+            <span class="obs-value">84</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Smart Badges -->
+      <div class="demo-card">
+        <div class="component-label">Smart Badges</div>
+        <div class="demo-card-title" style="font-size:1.3rem; font-weight:700; margin-bottom:16px;">Status Indicators</div>
+        <div class="badge-grid-demo">
+          <div class="badge-demo badge-success">
+            <div class="pulse-dot-sm" style="margin:0 auto 4px;"></div>
+            ONLINE
+          </div>
+          <div class="badge-demo badge-warning">
+            <div class="pulse-dot-sm" style="margin:0 auto 4px; background:var(--warning); box-shadow:0 0 8px var(--warning);"></div>
+            SYNCING
+          </div>
+          <div class="badge-demo badge-indigo">
+            <div class="pulse-dot-sm" style="margin:0 auto 4px; background:var(--indigo); box-shadow:0 0 8px var(--indigo);"></div>
+            IDLE
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent Card -->
+      <div class="demo-card">
+        <div class="component-label">Agent Card</div>
+        <div class="demo-card-title" style="font-size:1.3rem; font-weight:700; margin-bottom:16px;">Expert Profile</div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div style="width:50px; height:50px; border-radius:50%; background:linear-gradient(135deg, var(--neon), var(--purple)); display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0;">🔥</div>
+          <div>
+            <div style="font-weight:600;">TráfegoMAX</div>
+            <div style="font-size:0.8rem; color:var(--neon);">Meta Specialist</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <span style="background:rgba(0,245,212,0.1); color:var(--neon); padding:4px 10px; border-radius:8px; font-size:0.75rem;">Facebook</span>
+          <span style="background:rgba(0,245,212,0.1); color:var(--neon); padding:4px 10px; border-radius:8px; font-size:0.75rem;">Instagram</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA with 3D -->
+  <section class="scene" id="final" style="background: radial-gradient(circle at center, rgba(99,102,241,0.1), var(--dark));">
+    <div class="content-box glass-panel" style="text-align:center; max-width:900px;">
+      <h2 class="text-5xl font-bold mb-8" style="font-family:'Orbitron'; background:linear-gradient(135deg, var(--neon), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+        READY TO LAUNCH?
+      </h2>
+      <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+        Junte-se a centenas de agências que já estão Using o Open-Trafego.
+        7 dias grátis. Resultados em 48h.
+      </p>
+      <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+        <a href="#" class="cta-button" style="font-size:1.2rem; padding:18px 50px;">START TRIAL</a>
+        <a href="#" class="inline-block" style="background:transparent; border:2px solid var(--neon); color:var(--neon); padding:16px 48px; border-radius:60px; font-weight:700; text-decoration:none; font-size:1.2rem;">VIEW DOCS</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Create depth navigation dots
+    const sections = ['hero', 'components', 'final'];
+    const nav = document.getElementById('depthNav');
+    sections.forEach((id, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'depth-dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+      nav.appendChild(dot);
+    });
+
+    // Update active dot on scroll
+    ScrollTrigger.create({
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => {
+        const scrollY = self.scroll();
+        sections.forEach((id, i) => {
+          const el = document.getElementById(id);
+          const rect = el.getBoundingClientRect();
+          const inView = rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
+          if (inView) {
+            document.querySelectorAll('.depth-dot').forEach((d, idx) => {
+              d.classList.toggle('active', idx === i);
+            });
+          }
+        });
+      }
+    });
+
+    // 3D tilt for demo cards
+    document.querySelectorAll('.demo-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -12;
+        const rotateY = ((x - centerX) / centerX) * 12;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(30px) scale(1.02)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0) scale(1)';
+      });
+    });
+
+    // Parallax orbs
+    document.querySelectorAll('.floating-orb').forEach((orb, i) => {
+      const speed = 0.2 + i * 0.2;
+      gsap.to(orb, {
+        y: -300 * speed,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: 'body',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.5
+        }
+      });
+    });
+
+    // Hero title 3D effect
+    gsap.to('.hero-title', {
+      rotateX: 10,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+
+    // Slider demo value update
+    document.querySelectorAll('.slider-demo').forEach(slider => {
+      const valueDisplay = slider.parentElement.querySelector('.slider-value');
+      slider.addEventListener('input', (e) => {
+        valueDisplay.textContent = `R$ ${e.target.value}`;
+      });
+    });
+
+    // Entrance animations
+    gsap.from('.demo-card', {
+      y: 100,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.component-row',
+        start: 'top 70%',
+        once: true
+      }
+    });
+  </script>
+</body>
+</html>

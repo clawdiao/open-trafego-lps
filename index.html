@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Open-Trafego — LPs de Vendas</title>
+  <title>Open-Trafego — Landing Pages Collection</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
@@ -21,8 +21,30 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
+      padding: 60px 20px;
+    }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: #888;
+      font-size: 1.2rem;
+      margin-bottom: 60px;
+      text-align: center;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      color: var(--neon-cyan);
+      margin: 50px 0 30px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0,245,212,0.2);
     }
     .grid {
       display: grid;
@@ -92,7 +114,7 @@
       position: relative;
       z-index: 1;
     }
-    .card .tech-stack {
+    .tech-stack {
       margin-top: 20px;
       display: flex;
       flex-wrap: wrap;
@@ -108,132 +130,232 @@
       font-size: 0.75rem;
       border: 1px solid rgba(0, 245, 212, 0.3);
     }
+    .wrapper {
+      max-width: 1400px;
+      width: 100%;
+    }
+    .count {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 30px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <h1 style="font-family: 'Orbitron', sans-serif; font-size: 3.5rem; font-weight: 900; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;">OPEN-TRAFEGO</h1>
-  <p style="color: #888; margin-bottom: 60px; font-size: 1.1rem; text-align: center;">Landing Pages de Vendas — Escolha a sua</p>
+  <div class="wrapper">
+    <h1>OPEN-TRAFEGO LPS</h1>
+    <p class="subtitle">20 Landing Pages Modernas — Efeitos 3D + Componentes 21st.dev</p>
 
-  <div class="grid">
-    <!-- Grupo 1: Efeitos Diversos -->
-    <a href="lp1.html" class="card">
-      <span class="badge">Auto ROI</span>
-      <h2>Automação Total</h2>
-      <p>Foco em resultados automáticos. IA otimizando campanhas em tempo real, sem intervenção manual.</p>
-      <div class="tech-stack">
-        <span>Three.js</span>
-        <span>GSAP</span>
-        <span>Particles</span>
-      </div>
-    </a>
+    <div class="count">Total: 20 páginas • 5 efeitos + 15 componentes únicos</div>
 
-    <a href="lp2.html" class="card">
-      <span class="badge">No-Code</span>
-      <h2>Simplicidade</h2>
-      <p>Interface intuitiva, 1-clique para conectar Meta e Google. Resultados sem precisar de especialista.</p>
-      <div class="tech-stack">
-        <span>Parallax</span>
-        <span>Glassmorphism</span>
-        <span>Video BG</span>
-      </div>
-    </a>
+    <!-- Grupo 1: Efeitos Diversos (5) -->
+    <h3 class="section-title">🧬 Grupo 1 — Efeitos Diversos</h3>
+    <div class="grid">
+      <a href="lp1.html" class="card">
+        <span class="badge">Auto ROI</span>
+        <h2>Automação Total</h2>
+        <p>Foco em resultados automáticos. IA otimizando campanhas em tempo real, sem intervenção manual.</p>
+        <div class="tech-stack">
+          <span>Three.js</span><span>GSAP</span><span>Particles</span>
+        </div>
+      </a>
 
-    <a href="lp3.html" class="card">
-      <span class="badge">AI First</span>
-      <h2>Data-Driven</h2>
-      <p>Algoritmos avançados analisam milhões de dados para maximizar seu ROAS automaticamente.</p>
-      <div class="tech-stack">
-        <span>Real-time Charts</span>
-        <span>Neural Viz</span>
-        <span>Counters</span>
-      </div>
-    </a>
+      <a href="lp2.html" class="card">
+        <span class="badge">No-Code</span>
+        <h2>Simplicidade</h2>
+        <p>Interface intuitiva, 1-clique para conectar Meta e Google. Resultados sem precisar de especialista.</p>
+        <div class="tech-stack">
+          <span>Parallax</span><span>Glassmorphism</span><span>Video BG</span>
+        </div>
+      </a>
 
-    <a href="lp4.html" class="card">
-      <span class="badge">Integrado</span>
-      <h2>Meta + Google</h2>
-      <p>Gerencie Facebook, Instagram e Google Ads em um único dashboard com sync em tempo real.</p>
-      <div class="tech-stack">
-        <span>Sync Anim</span>
-        <span>Realtime Stats</span>
-        <span>Connectors</span>
-      </div>
-    </a>
+      <a href="lp3.html" class="card">
+        <span class="badge">AI First</span>
+        <h2>Data-Driven</h2>
+        <p>Algoritmos avançados analisam milhões de dados para maximizar seu ROAS automaticamente.</p>
+        <div class="tech-stack">
+          <span>Real-time Charts</span><span>Neural Viz</span><span>Counters</span>
+        </div>
+      </a>
 
-    <a href="lp5.html" class="card">
-      <span class="badge">Enterprise</span>
-      <h2>Agência & Scale</h2>
-      <p>Para agências e empresas que precisam escalar com múltiplas contas, white-label e API poderosa.</p>
-      <div class="tech-stack">
-        <span>Security Badges</span>
-        <span>White-label</span>
-        <span>SLA</span>
-      </div>
-    </a>
+      <a href="lp4.html" class="card">
+        <span class="badge">Integrado</span>
+        <h2>Meta + Google</h2>
+        <p>Gerencie Facebook, Instagram e Google Ads em um único dashboard com sync em tempo real.</p>
+        <div class="tech-stack">
+          <span>3D Tilt</span><span>Magnetic Buttons</span><span>ScrollTrigger</span>
+        </div>
+      </a>
 
-    <!-- Grupo 2: Scroll 3D -->
-    <a href="lp6.html" class="card">
-      <span class="badge">3D Perspective</span>
-      <h2>Perspective Layers</h2>
-      <p>Camadas 3D com perspectiva (perspective + translateZ). Profundidade real no scroll.</p>
-      <div class="tech-stack">
-        <span>perspective</span>
-        <span>translateZ</span>
-        <span>GSAP</span>
-      </div>
-    </a>
+      <a href="lp5.html" class="card">
+        <span class="badge">Enterprise</span>
+        <h2>Agência & Scale</h2>
+        <p>Para agências e empresas que precisam escalar com múltiplas contas, white-label e API poderosa.</p>
+        <div class="tech-stack">
+          <span>WebGL</span><span>Morphing</span><span>Advanced Anim</span>
+        </div>
+      </a>
+    </div>
 
-    <a href="lp7.html" class="card">
-      <span class="badge">3D Perspective</span>
-      <h2>Z-Axis Text</h2>
-      <p>Texto que sai da tela (translateZ negativo) criando efeito cinematográfico.</p>
-      <div class="tech-stack">
-        <span>3D Text</span>
-        <span>Z-axis</span>
-        <span>Parallax</span>
-      </div>
-    </a>
+    <!-- Grupo 2: Scroll 3D (5) -->
+    <h3 class="section-title">🌐 Grupo 2 — Scroll 3D Effects</h3>
+    <div class="grid">
+      <a href="lp6.html" class="card">
+        <span class="badge">3D Perspective</span>
+        <h2>Perspective Layers</h2>
+        <p>Camadas 3D com perspectiva (perspective + translateZ). Profundidade real no scroll.</p>
+        <div class="tech-stack">
+          <span>perspective</span><span>translateZ</span><span>GSAP</span>
+        </div>
+      </a>
 
-    <a href="lp8.html" class="card">
-      <span class="badge">3D Scale</span>
-      <h2>Scale 3D</h2>
-      <p>Elementos que escalam (scale) conforme o scroll, como se estivessem saindo da tela.</p>
-      <div class="tech-stack">
-        <span>scale()</span>
-        <span>Zoom effect</span>
-        <span>GPU</span>
-      </div>
-    </a>
+      <a href="lp7.html" class="card">
+        <span class="badge">3D Z-Axis</span>
+        <h2>Z-Axis Text</h2>
+        <p>Texto que sai da tela (translateZ negativo) criando efeito cinematográfico.</p>
+        <div class="tech-stack">
+          <span>3D Text</span><span>Z-axis</span><span>Parallax</span>
+        </div>
+      </a>
 
-    <a href="lp9.html" class="card">
-      <span class="badge">3D Rotate</span>
-      <h2>Rotate Layers</h2>
-      <p>Camadas múltiplas que rotacionam independentemente no scroll (rotateX/Y).</p>
-      <div class="tech-stack">
-        <span>rotateX</span>
-        <span>rotateY</span>
-        <span>Multi-layer</span>
-      </div>
-    </a>
+      <a href="lp8.html" class="card">
+        <span class="badge">3D Scale</span>
+        <h2>Scale 3D</h2>
+        <p>Elementos que escalam (scale) conforme o scroll, como se estivessem saindo da tela.</p>
+        <div class="tech-stack">
+          <span>scale()</span><span>Zoom effect</span><span>GPU</span>
+        </div>
+      </a>
 
-    <a href="lp10.html" class="card">
-      <span class="badge">3D Morph</span>
-      <h2>Morph Parallax</h2>
-      <p>Formas orgânicas que se transformam (morph) + parallax 3D combinados.</p>
-      <div class="tech-stack">
-        <span>border-radius</span>
-        <span>morph</span>
-        <span>parallax</span>
-      </div>
-    </a>
+      <a href="lp9.html" class="card">
+        <span class="badge">3D Rotate</span>
+        <h2>Rotate Layers</h2>
+        <p>Camadas múltiplas que rotacionam independentemente no scroll (rotateX/Y).</p>
+        <div class="tech-stack">
+          <span>rotateX</span><span>rotateY</span><span>Multi-layer</span>
+        </div>
+      </a>
+
+      <a href="lp10.html" class="card">
+        <span class="badge">3D Morph</span>
+        <h2>Morph Parallax</h2>
+        <p>Formas orgânicas que se transformam (morph) + parallax 3D combinados.</p>
+        <div class="tech-stack">
+          <span>border-radius</span><span>morph</span><span>parallax</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Grupo 3: Components 21st.dev (5) -->
+    <h3 class="section-title">🧩 Grupo 3 — Components 21st.dev</h3>
+    <div class="grid">
+      <a href="lp11.html" class="card">
+        <span class="badge">Dashboard</span>
+        <h2>Dashboard Preview</h2>
+        <p>Preview interativo do dashboard com painel 3D, métricas live e sidebar.</p>
+        <div class="tech-stack">
+          <span>3D Panel</span><span>Observability</span><span>Live Metrics</span>
+        </div>
+      </a>
+
+      <a href="lp12.html" class="card">
+        <span class="badge">Budget</span>
+        <h2>Spend Limit Control</h2>
+        <p>Slider interativo de limite de crédito com agent cards e 3D tilt.</p>
+        <div class="tech-stack">
+          <span>Slider</span><span>Agent Cards</span><span>3D Tilt</span>
+        </div>
+      </a>
+
+      <a href="lp13.html" class="card">
+        <span class="badge">Terminal</span>
+        <h2>Terminal Demo</h2>
+        <p>Janela de terminal com comandos animados e morph background.</p>
+        <div class="tech-stack">
+          <span>Terminal</span><span>Typing Anim</span><span>Morph</span>
+        </div>
+      </a>
+
+      <a href="lp14.html" class="card">
+        <span class="badge">Observability</span>
+        <h2>Observability Live</h2>
+        <p>Painel de métricas em tempo real com gráficos animados e camadas 3D.</p>
+        <div class="tech-stack">
+          <span>WebSocket</span><span>Charts</span><span>Parallax</span>
+        </div>
+      </a>
+
+      <a href="lp15.html" class="card">
+        <span class="badge">Chat</span>
+        <h2>AI Chat Assistant</h2>
+        <p>Chat bubble flutuante com agente de IA, scale 3D e steps interativos.</p>
+        <div class="tech-stack">
+          <span>Chat Bubble</span><span>Scale 3D</span><span>Floating UI</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Grupo 4: Advanced Mix (5) -->
+    <h3 class="section-title">🚀 Grupo 4 — Advanced Mix</h3>
+    <div class="grid">
+      <a href="lp16.html" class="card">
+        <span class="badge">Z-Axis</span>
+        <h2>Agent Cards Z-Depth</h2>
+        <p>Cards de agentes com profundidade Z e título gigante em translateZ.</p>
+        <div class="tech-stack">
+          <span>Z-axis</span><span>Cards 3D</span><span>Depth Layers</span>
+        </div>
+      </a>
+
+      <a href="lp17.html" class="card">
+        <span class="badge">Rotate</span>
+        <h2>Live Status Rotate</h2>
+        <p>Painel de status com camadas rotacionando e smart badges animados.</p>
+        <div class="tech-stack">
+          <span>Rotate Layers</span><span>Smart Badge</span><span>Status</span>
+        </div>
+      </a>
+
+      <a href="lp18.html" class="card">
+        <span class="badge">Showcase</span>
+        <h2>Components Showcase</h2>
+        <p>Mostruário de todos os componentes 21st.dev em um só lugar.</p>
+        <div class="tech-stack">
+          <span>Grid Layout</span><span>Mini Components</span><span>Particles</span>
+        </div>
+      </a>
+
+      <a href="lp19.html" class="card">
+        <span class="badge">Morph</span>
+        <h2>Advanced Morph</h2>
+        <p>Efeitos morph avançados combinados com 3D tilt, parallax e cube.</p>
+        <div class="tech-stack">
+          <span>Morph Shapes</span><span>3D Tilt</span><span>Parallax</span>
+        </div>
+      </a>
+
+      <a href="lp20.html" class="card">
+        <span class="badge">Full Experience</span>
+        <h2>Interactive Demo</h2>
+        <p>Tudo combinado: componentes 21st.dev + todos os efeitos 3D + interatividade total.</p>
+        <div class="tech-stack">
+          <span>Everything!</span><span>Chat</span><span>Terminal</span><span>Slider</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 80px; padding: 30px; border-top: 1px solid rgba(255,255,255,0.1); width: 100%; text-align: center; color: #666;">
+      <p>© 2025 Open-Trafego — Sistema de Tráfego Pago Automatizado com IA</p>
+      <p style="font-size: 0.85rem; margin-top: 10px;">
+        20 Landing Pages • Todas com GSAP + Tailwind • Dark Mode Neon • Components by 21st.dev
+      </p>
+    </footer>
   </div>
 
-  <footer style="margin-top: 80px; color: #666; font-size: 0.9rem; text-align: center;">
-    <p>© 2025 Open-Trafego — Sistema de Tráfego Pago Automatizado com IA</p>
-  </footer>
-
   <script>
-    // Efeito hover nos cards
+    // Tilt effect on cards
     document.querySelectorAll('.card').forEach(card => {
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
@@ -241,8 +363,8 @@
         const y = e.clientY - rect.top;
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -5;
-        const rotateY = ((x - centerX) / centerX) * 5;
+        const rotateX = ((y - centerY) / centerY) * -3;
+        const rotateY = ((x - centerX) / centerX) * 3;
         card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-15px) scale(1.02)`;
       });
       card.addEventListener('mouseleave', () => {
