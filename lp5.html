@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open-Trafego — Solução Enterprise para Agências</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon: #00F5D4;
+      --purple: #7B2FBE;
+      --dark: #0A0A0F;
+      --gold: #FFD700;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: white;
+      overflow-x: hidden;
+    }
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: radial-gradient(circle at 50% 50%, rgba(123, 47, 190, 0.15), transparent 50%);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="rgba(255,255,255,0.02)" width="100%" height="100%"/></svg>');
+      opacity: 0.3;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 1200px;
+      padding: 0 20px;
+    }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--gold), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+    .subtitle {
+      font-size: 1.3rem;
+      color: #ccc;
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+    .cta-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--purple));
+      color: #000;
+      padding: 18px 50px;
+      border-radius: 60px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1.2rem;
+      margin: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
+    }
+    .cta-primary:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 60px rgba(255, 215, 0, 0.6);
+    }
+    .cta-secondary {
+      display: inline-block;
+      background: transparent;
+      color: var(--gold);
+      padding: 18px 50px;
+      border-radius: 60px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1.2rem;
+      margin: 10px;
+      border: 2px solid var(--gold);
+      transition: all 0.3s ease;
+    }
+    .cta-secondary:hover {
+      background: rgba(255, 215, 0, 0.1);
+      transform: translateY(-5px);
+    }
+    .section {
+      padding: 120px 20px;
+      position: relative;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 60px;
+      color: var(--gold);
+    }
+    .enterprise-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .feature-box {
+      background: var(--dark);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--purple));
+    }
+    .feature-box h3 {
+      color: var(--neon);
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 40px;
+      max-width: 900px;
+      margin: 60px auto 0;
+      align-items: center;
+      opacity: 0.7;
+    }
+    .logo-grid span {
+      font-size: 1.5rem;
+      color: #888;
+      text-align: center;
+      font-weight: 600;
+    }
+    .numbers {
+      display: flex;
+      justify-content: center;
+      gap: 100px;
+      margin: 60px 0;
+      flex-wrap: wrap;
+    }
+    .number {
+      text-align: center;
+    }
+    .number-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4rem;
+      color: var(--gold);
+      font-weight: 900;
+      line-height: 1;
+    }
+    .number-label {
+      color: #888;
+      margin-top: 10px;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+    .security-badges {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 60px 0;
+      flex-wrap: wrap;
+    }
+    .badge {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .badge-icon {
+      font-size: 1.5rem;
+    }
+    footer {
+      padding: 60px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>ENTERPRISE<br>SCALE</h1>
+      <p class="subtitle">
+        Solução completa para agências e empresas que precisam escalar.<br>
+        Múltiplas contas, white-label, API dedicada e suporte 24/7.
+      </p>
+      <a href="#demo" class="cta-primary">AGENDAR DEMO</a>
+      <a href="#pricing" class="cta-secondary">VER PLANOS</a>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section">
+    <h2 class="section-title">PODER PARA GRANDES OPERAÇÕES</h2>
+    <div class="enterprise-features">
+      <div class="feature-box">
+        <h3>🏢 Multi-Tenant & White-Label</h3>
+        <p>Dashboard personalizado com sua marca. Separação total de dados por cliente. SSO integrado.</p>
+      </div>
+      <div class="feature-box">
+        <h3>🔌 API Pública</h3>
+        <p>RESTful API completa para integrar com seus sistemas internos. Webhooks em tempo real. Rate limits altos.</p>
+      </div>
+      <div class="feature-box">
+        <h3>📈 Scale Automático</h3>
+        <p>Dezenas de milhares de campanhas gerenciadas simultaneamente. Infraestrutura auto-escalável.</p>
+      </div>
+      <div class="feature-box">
+        <h3>🛡️ Compliance & Segurança</h3>
+        <p>GDPR, LGPD, SOC2. Criptografia端-a-端. Logs completos. Backup diário.</p>
+      </div>
+      <div class="feature-box">
+        <h3>🎯 Advanced Targeting</h3>
+        <p>Lookalikes avançados, audience expansion, cross-device tracking. IA própria.</p>
+      </div>
+      <div class="feature-box">
+        <h3>📊 Custom Dashboards</h3>
+        <p>_relatórios personalizados, KPIs custom, data warehouse export. Tudo editável.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof -->
+  <section class="section" style="text-align:center;">
+    <h2 class="section-title">QUEM USA</h2>
+    <div class="logo-grid">
+      <span>AGÊNCIA A</span>
+      <span>AGÊNCIA B</span>
+      <span>AGÊNCIA C</span>
+      <span>AGÊNCIA D</span>
+      <span>AGÊNCIA E</span>
+    </div>
+  </section>
+
+  <!-- Numbers -->
+  <section class="section" style="text-align:center;">
+    <div class="numbers">
+      <div class="number">
+        <div class="number-value" data-target="500">0</div>
+        <div class="number-label">Agências</div>
+      </div>
+      <div class="number">
+        <div class="number-value" data-target="50">0</div>
+        <div class="number-label">Milhões em ad spend</div>
+      </div>
+      <div class="number">
+        <div class="number-value" data-target="99.9">0</div>
+        <div class="number-label">Uptime %</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section class="section" style="text-align:center;">
+    <h2 class="section-title">SEGURANÇA EMPRESARIAL</h2>
+    <div class="security-badges">
+      <div class="badge">
+        <span class="badge-icon">🔐</span>
+        <span>GDPR Compliant</span>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">🇧🇷</span>
+        <span>LGPD</span>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">📑</span>
+        <span>SOC2</span>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">🔒</span>
+        <span>Encryption</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" style="text-align:center;">
+    <h2 style="font-size:2.5rem; color:var(--gold); margin-bottom:20px;">PRONTO PARA ESCALAR?</h2>
+    <p style="color:#aaa; max-width:600px; margin:0 auto 30px;">Agende uma demo personalizada com nossa equipe de vendas.</p>
+    <a href="#" class="cta-primary">AGENDAR DEMO</a>
+    <a href="mailto:vendas@opentrafego.com" class="cta-secondary">CONTATO DIRETO</a>
+  </section>
+
+  <footer>
+    <p>© 2025 Open-Trafego — Enterprise Traffic Automation</p>
+  </footer>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Counter animation
+    const counters = document.querySelectorAll('.number-value');
+    const animateCounters = () => {
+      counters.forEach(c => {
+        const target = parseFloat(c.getAttribute('data-target'));
+        const duration = 2500;
+        const start = 0;
+        const isFloat = target % 1 !== 0;
+        const startTime = performance.now();
+        const update = (currentTime) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const current = start + (target - start) * progress;
+          c.textContent = isFloat ? current.toFixed(1) : Math.floor(current);
+          if (progress < 1) requestAnimationFrame(update);
+        };
+        requestAnimationFrame(update);
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+    observer.observe(document.querySelector('.numbers'));
+
+    // Scroll animations
+    gsap.utils.toArray('.section').forEach(sec => {
+      gsap.from(sec.children, {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sec,
+          start: 'top 80%'
+        }
+      });
+    });
+  </script>
+</body>
+</html>

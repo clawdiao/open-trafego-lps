@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open-Trafego — IA & Data-Driven</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon: #00F5D4;
+      --purple: #7B2FBE;
+      --dark: #0A0A0F;
+      --surface: rgba(21, 21, 31, 0.8);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: white;
+      overflow-x: hidden;
+    }
+    .morph-bg {
+      position: fixed;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(0, 245, 212, 0.1) 0%, transparent 30%),
+        radial-gradient(circle at 70% 60%, rgba(123, 47, 190, 0.1) 0%, transparent 30%);
+      filter: blur(60px);
+      animation: morph 20s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+    @keyframes morph {
+      0% { transform: translate(0,0) rotate(0deg) scale(1); }
+      50% { transform: translate(5%,5%) rotate(180deg) scale(1.2); }
+      100% { transform: translate(-5%,-5%) rotate(360deg) scale(0.9); }
+    }
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 1100px;
+      padding: 0 20px;
+    }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--neon), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+    .subtitle {
+      font-size: 1.3rem;
+      color: #ccc;
+      max-width: 800px;
+      margin: 0 auto 40px;
+    }
+    .cta {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--neon), var(--purple));
+      color: #000;
+      padding: 18px 50px;
+      border-radius: 60px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 40px rgba(0, 245, 212, 0.4);
+    }
+    .cta:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 60px rgba(0, 245, 212, 0.6);
+    }
+    .section {
+      padding: 120px 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      color: var(--neon);
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .ai-model {
+      background: var(--surface);
+      border: 1px solid rgba(0, 245, 212, 0.3);
+      border-radius: 25px;
+      padding: 50px;
+      max-width: 1000px;
+      margin: 60px auto 0;
+      backdrop-filter: blur(20px);
+      text-align: center;
+    }
+    .model-viz {
+      height: 300px;
+      margin: 30px 0;
+      position: relative;
+    }
+    .chart-container {
+      max-width: 800px;
+      margin: 0 auto 60px;
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 30px;
+      border: 1px solid rgba(0, 245, 212, 0.2);
+    }
+    . counters {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      margin: 60px 0;
+      flex-wrap: wrap;
+    }
+    .counter {
+      text-align: center;
+    }
+    .counter-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      color: var(--neon);
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .counter-label {
+      color: #888;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+    .predictive-table {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: var(--surface);
+      border-radius: 15px;
+      overflow: hidden;
+    }
+    .predictive-table th, .predictive-table td {
+      padding: 15px 20px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .predictive-table th {
+      background: rgba(0, 245, 212, 0.1);
+      color: var(--neon);
+      font-weight: 700;
+    }
+    .predictive-table tr:last-child td {
+      border-bottom: none;
+    }
+    footer {
+      padding: 60px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="morph-bg"></div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>DATA-DRIVEN & AI</h1>
+      <p class="subtitle">
+        Inteligência Artificial que analisa milhões de dados por segundo.<br>
+        Previsões precisas. Otimizações automáticas. Resultados exponenciais.
+      </p>
+      <a href="#demo" class="cta">VER DEMO</a>
+    </div>
+  </section>
+
+  <!-- AI Model Visualization -->
+  <section class="section">
+    <h2 class="section-title">NOSSA IA EM AÇÃO</h2>
+    <div class="ai-model">
+      <p style="color:#aaa; margin-bottom:20px;">Rede Neural Neural prevendo melhorTargeting</p>
+      <div class="model-viz" id="neural-viz"></div>
+      <p>Processamento: <strong style="color:var(--neon)">0.5s</strong> por decisão</p>
+    </div>
+  </section>
+
+  <!-- Charts -->
+  <section class="section">
+    <h2 class="section-title">RESULTADOS REAIS</h2>
+    <div class="chart-container">
+      <canvas id="roasChart"></canvas>
+    </div>
+    <div class="chart-container">
+      <canvas id="spendChart"></canvas>
+    </div>
+  </section>
+
+  <!-- Counters -->
+  <section class="section">
+    <div class="counters">
+      <div class="counter">
+        <div class="counter-value" data-target="4.2">0</div>
+        <div class="counter-label">ROAS Médio</div>
+      </div>
+      <div class="counter">
+        <div class="counter-value" data-target="98">0</div>
+        <div class="counter-label">Precisão %</div>
+      </div>
+      <div class="counter">
+        <div class="counter-value" data-target="24">0</div>
+        <div class="counter-label">Otimizações/dia</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Predictive Table -->
+  <section class="section">
+    <h2 class="section-title">PREVISÕES PARA PRÓXIMA SEMANA</h2>
+    <table class="predictive-table">
+      <thead>
+        <tr>
+          <th>Dia</th>
+          <th>Orçamento Recomendado</th>
+          <th>ROAS Esperado</th>
+          <th>Confiança</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Segunda</td>
+          <td>R$ 1.250</td>
+          <td>4.3</td>
+          <td>92%</td>
+        </tr>
+        <tr>
+          <td>Terça</td>
+          <td>R$ 1.400</td>
+          <td>4.6</td>
+          <td>94%</td>
+        </tr>
+        <tr>
+          <td>Quarta</td>
+          <td>R$ 1.180</td>
+          <td>4.1</td>
+          <td>90%</td>
+        </tr>
+        <tr>
+          <td>Quinta</td>
+          <td>R$ 1.600</td>
+          <td>4.8</td>
+          <td>96%</td>
+        </tr>
+        <tr>
+          <td>Sexta</td>
+          <td>R$ 1.750</td>
+          <td>5.1</td>
+          <td>97%</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" style="text-align:center;">
+    <h2 style="font-size:2.5rem; color:var(--neon); margin-bottom:20px;">DEIXE A IA TRABALHAR PARA VOCÊ</h2>
+    <p style="color:#aaa; max-width:600px; margin:0 auto 30px;">Experimente 7 dias grátis. Veja a diferença.</p>
+    <a href="#" class="cta">COMEÇAR TRIAL</a>
+  </section>
+
+  <footer>
+    <p>© 2025 Open-Trafego — AI-Powered Traffic Automation</p>
+  </footer>
+
+  <script>
+    // Chart.js — ROAS
+    const roasCtx = document.getElementById('roasChart').getContext('2d');
+    new Chart(roasCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+        datasets: [{
+          label: 'ROAS Médio',
+          data: [2.1, 2.8, 3.4, 3.9, 4.2, 4.6],
+          borderColor: '#00F5D4',
+          backgroundColor: 'rgba(0, 245, 212, 0.1)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { color: '#fff' } },
+        scales: {
+          x: { ticks: { color: '#888' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+          y: { ticks: { color: '#888' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+        }
+      }
+    });
+
+    // Chart.js — Spend vs Revenue
+    const spendCtx = document.getElementById('spendChart').getContext('2d');
+    new Chart(spendCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+        datasets: [
+          {
+            label: 'Investido (R$)',
+            data: [3000, 4200, 5000, 6100, 7200, 8500],
+            backgroundColor: 'rgba(123, 47, 190, 0.6)'
+          },
+          {
+            label: 'Receita (R$)',
+            data: [6300, 11760, 17000, 23790, 30240, 39100],
+            backgroundColor: 'rgba(0, 245, 212, 0.6)'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { color: '#fff' } },
+        scales: {
+          x: { ticks: { color: '#888' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+          y: { ticks: { color: '#888' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+        }
+      }
+    });
+
+    // Counter animation
+    const counters = document.querySelectorAll('.counter-value');
+    const animateCounters = () => {
+      counters.forEach(c => {
+        const target = parseFloat(c.getAttribute('data-target'));
+        const duration = 2000;
+        const start = 0;
+        const startTime = performance.now();
+        const update = (currentTime) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const current = start + (target - start) * progress;
+          c.textContent = target % 1 === 0 ? Math.floor(current) : current.toFixed(1);
+          if (progress < 1) requestAnimationFrame(update);
+        };
+        requestAnimationFrame(update);
+      });
+    };
+
+    // Neural network viz (simple)
+    const viz = document.getElementById('neural-viz');
+    if (viz) {
+      const canvas = document.createElement('canvas');
+      canvas.width = viz.clientWidth || 800;
+      canvas.height = 300;
+      viz.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      const nodes = [];
+      for (let i = 0; i < 50; i++) {
+        nodes.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5
+        });
+      }
+      function drawNeural() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00F5D4';
+        nodes.forEach(n => {
+          n.x += n.vx; n.y += n.vy;
+          if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+          if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+          ctx.beginPath(); ctx.arc(n.x, n.y, 2, 0, Math.PI*2); ctx.fill();
+        });
+        requestAnimationFrame(drawNeural);
+      }
+      drawNeural();
+    }
+
+    // IntersectionObserver for counters
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+    observer.observe(document.querySelector('.counters'));
+
+    // GSAP ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.utils.toArray('.section').forEach(sec => {
+      gsap.from(sec.children, {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sec,
+          start: 'top 80%'
+        }
+      });
+    });
+  </script>
+</body>
+</html>

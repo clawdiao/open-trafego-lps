@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open-Trafego — Automação Total de Tráfego Pago</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon: #00F5D4;
+      --purple: #7B2FBE;
+      --dark: #0A0A0F;
+      --surface: rgba(21, 21, 31, 0.8);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: white;
+      overflow-x: hidden;
+    }
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    #three-bg {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0;
+      opacity: 0.6;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 1200px;
+      padding: 0 20px;
+    }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--neon), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+    .subtitle {
+      font-size: 1.3rem;
+      color: #ccc;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+    .cta {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--neon), var(--purple));
+      color: #000;
+      padding: 18px 50px;
+      border-radius: 60px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 40px rgba(0, 245, 212, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    .cta:hover::after {
+      left: 100%;
+    }
+    .cta:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 60px rgba(0, 245, 212, 0.6);
+    }
+    .section {
+      padding: 120px 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      color: var(--neon);
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid rgba(0, 245, 212, 0.2);
+      border-radius: 20px;
+      padding: 40px 30px;
+      backdrop-filter: blur(20px);
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--neon);
+      box-shadow: 0 20px 40px rgba(0, 245, 212, 0.2);
+    }
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    .feature-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: var(--neon);
+    }
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      margin: 60px 0;
+      flex-wrap: wrap;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      color: var(--neon);
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .stat-label {
+      color: #888;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .pricing {
+      background: linear-gradient(180deg, var(--surface), rgba(0, 245, 212, 0.05));
+      border-radius: 30px;
+      padding: 60px 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+      border: 1px solid rgba(0, 245, 212, 0.3);
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .price-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .price-card.featured {
+      border-color: var(--neon);
+      box-shadow: 0 0 30px rgba(0, 245, 212, 0.2);
+      transform: scale(1.05);
+    }
+    .price-card h3 {
+      color: var(--neon);
+      margin-bottom: 15px;
+    }
+    .price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: white;
+      margin: 20px 0;
+    }
+    .price span {
+      font-size: 1rem;
+      color: #888;
+      font-weight: 400;
+    }
+    .testimonials {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .testimonial {
+      background: rgba(255,255,255,0.03);
+      border-left: 4px solid var(--neon);
+      padding: 30px;
+      margin: 20px 0;
+      border-radius: 0 12px 12px 0;
+    }
+    .testimonial .author {
+      color: var(--neon);
+      font-weight: 700;
+      margin-top: 15px;
+    }
+    .faq-item {
+      max-width: 800px;
+      margin: 20px auto;
+      background: var(--surface);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .faq-question {
+      padding: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-answer {
+      padding: 0 20px 20px;
+      color: #aaa;
+      display: none;
+    }
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+    footer {
+      padding: 60px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <canvas id="three-bg"></canvas>
+    <div class="hero-content">
+      <h1 class="hero-title">AUTOMAÇÃO TOTAL<br>TRÁFEGO PAGO</h1>
+      <p class="subtitle">
+        IA que otimiza suas campanhas Meta e Google 24/7.<br>
+        Resultados automáticos. Sem intervenção manual.
+      </p>
+      <a href="#pricing" class="cta">COMEÇAR AGORA</a>
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-value">300%</div>
+          <div class="stat-label">ROAS Médio</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">24/7</div>
+          <div class="stat-label">Otimização Contínua</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">0,5s</div>
+          <div class="stat-label">Latência de Decisão</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section">
+    <h2 class="section-title">PODER DA AUTOMAÇÃO</h2>
+    <div class="grid-3">
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>IA Auto-Optimize</h3>
+        <p>Algoritmos que aprendem com seus dados e ajustam lances, orçamentos e públicos em tempo real.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Predictive Analytics</h3>
+        <p>Previsão de resultados com 95% de precisão. Saiba exatamente quanto vai gastar e receber.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <h3>Multi-Platform Sync</h3>
+        <p>Conecte Meta Ads + Google Ads em um só lugar. Controle total sem trocar de aba.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section" id="pricing">
+    <h2 class="section-title">PLANOS</h2>
+    <div class="pricing">
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Starter</h3>
+          <div class="price">R$ 97<span>/mês</span></div>
+          <p>1 conta | 5 campanhas | Suporte email</p>
+          <a href="#" class="cta" style="margin-top:20px; padding:12px 30px; font-size:1rem;">Escolher</a>
+        </div>
+        <div class="price-card featured">
+          <div style="background:var(--neon); color:#000; display:inline-block; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:700; margin-bottom:10px;">POPULAR</div>
+          <h3>Pro</h3>
+          <div class="price">R$ 297<span>/mês</span></div>
+          <p>3 contas | 20 campanhas | Suporte prioritário</p>
+          <a href="#" class="cta" style="margin-top:20px; padding:12px 30px; font-size:1rem;">Escolher</a>
+        </div>
+        <div class="price-card">
+          <h3>Agency</h3>
+          <div class="price">R$ 997<span>/mês</span></div>
+          <p>Ilimitado | White-label | API dedicada</p>
+          <a href="#" class="cta" style="margin-top:20px; padding:12px 30px; font-size:1rem;">Escolher</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <h2 class="section-title">RESULTADOS REAIS</h2>
+    <div class="testimonials">
+      <div class="testimonial">
+        <p>"Aumentamos ROAS de 2.1 para 4.8 em 2 semanas. A IA faz mágica!"</p>
+        <div class="author">— Carlos Silva, E-commerce</div>
+      </div>
+      <div class="testimonial">
+        <p>"Economizei 20h por semana de trabalho manual. O sistema paga sozinho."</p>
+        <div class="author">— Ana Costa, Agência Digital</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <h2 class="section-title">PERGUNTAS FREQUENTES</h2>
+    <div style="max-width:800px; margin:0 auto;">
+      <div class="faq-item">
+        <div class="faq-question">Preciso ter experiência com Meta/Google? <span>+</span></div>
+        <div class="faq-answer">Não! O sistema foi feito para ser usable por qualquer pessoa. Basta conectar as contas e deixar a IA trabalhar.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Quantas contas posso conectar? <span>+</span></div>
+        <div class="faq-answer">Depende do plano: Starter (1 conta), Pro (3 contas), Agency (ilimitado).</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Funciona com Google Ads? <span>+</span></div>
+        <div class="faq-answer">Sim! Integração completa com Google Ads API v14.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Final -->
+  <section class="section" style="text-align:center;">
+    <h2 style="font-size:2.5rem; color:var(--neon); margin-bottom:20px;">PRONTO PARA AUTOMATIZAR?</h2>
+    <p style="color:#aaa; max-width:600px; margin:0 auto 30px;">Comece seu trial de 7 dias agora. Sem cartão necessário.</p>
+    <a href="#" class="cta">QUERO MEU TRIAL</a>
+  </section>
+
+  <footer>
+    <p>© 2025 Open-Trafego — Tráfego Pago Automatizado com IA</p>
+  </footer>
+
+  <!-- Three.js Background -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    // Three.js particle network background
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-bg'), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+
+    const particles = new THREE.BufferGeometry();
+    const particleCount = 300;
+    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount * 3; i++) {
+      positions[i] = (Math.random() - 0.5) * 10;
+    }
+    particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const particleMaterial = new THREE.PointsMaterial({
+      color: 0x00F5D4,
+      size: 0.03,
+      transparent: true,
+      opacity: 0.6
+    });
+    const particleMesh = new THREE.Points(particles, particleMaterial);
+    scene.add(particleMesh);
+
+    camera.position.z = 5;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      particleMesh.rotation.x += 0.0005;
+      particleMesh.rotation.y += 0.001;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // GSAP ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.utils.toArray('h1, .subtitle, .cta, .feature-card, .stat-value, .price-card, .testimonial, .faq-item').forEach(elem => {
+      gsap.from(elem, {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: elem,
+          start: 'top 80%',
+          once: true
+        }
+      });
+    });
+
+    // FAQ toggle
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        item.classList.toggle('active');
+        q.querySelector('span').textContent = item.classList.contains('active') ? '−' : '+';
+      });
+    });
+  </script>
+</body>
+</html>
